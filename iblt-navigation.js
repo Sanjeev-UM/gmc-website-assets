@@ -65,6 +65,12 @@
 
         container.appendChild(style);
 
+// Remove previously generated navigation links
+container.querySelectorAll("a").forEach(function(link) {
+    link.remove();
+});
+
+        
         pages.forEach(function (page) {
             var link = document.createElement("a");
 
