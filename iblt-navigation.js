@@ -53,6 +53,24 @@
                     link.setAttribute("aria-current", "page");
                 }
 
+// Hover effect
+link.addEventListener("mouseenter", function () {
+    link.style.backgroundColor = "#dddddd";
+    link.style.color = "#000000";
+});
+
+link.addEventListener("mouseleave", function () {
+    if (currentPath === page.url.toLowerCase()) {
+        // Restore active tab
+        link.style.backgroundColor = "#ffc40c";
+        link.style.color = "#ffffff";
+    } else {
+        // Restore normal tab
+        link.style.backgroundColor = "transparent";
+        link.style.color = "#f2f2f2";
+    }
+});
+
                 container.appendChild(link);
             });
         });
