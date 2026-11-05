@@ -55,7 +55,7 @@
 
 // Hover effect
 link.addEventListener("mouseenter", function () {
-    link.style.backgroundColor = "#dddddd";
+    link.style.backgroundColor = "#FFC40C";
     link.style.color = "#000000";
 });
 
