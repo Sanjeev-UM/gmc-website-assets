@@ -12,77 +12,57 @@
         { title: "FAQ", url: "inbound-long-term-faq" }
     ];
 
-    var containers = document.querySelectorAll(".iblt-navigation");
+    function buildNavigation() {
+        var containers = document.querySelectorAll(".iblt-navigation");
 
-    if (!containers.length) return;
+        containers.forEach(function (container) {
 
-    var currentPath = window.location.pathname
-        .replace(/\/+$/, "")
-        .split("/")
-        .pop()
-        .toLowerCase();
+            // Completely remove existing generated content
+            container.innerHTML = "";
 
-    containers.forEach(function (container) {
-        var style = document.createElement("style");
+            // Apply navigation styling
+            container.style.cssText =
+                "display:flex;" +
+                "flex-wrap:wrap;" +
+                "background:#003366;" +
+                "font-family:Arial,Helvetica,sans-serif;" +
+                "margin-bottom:25px;";
 
-        style.textContent = `
-            .iblt-navigation {
-                display: flex;
-                flex-wrap: wrap;
-                background: #003366;
-                font-family: Arial, Helvetica, sans-serif;
-                margin-bottom: 25px;
-            }
+            var currentPath = window.location.pathname
+                .replace(/\/+$/, "")
+                .split("/")
+                .pop()
+                .toLowerCase();
 
-            .iblt-navigation a {
-                display: block;
-                padding: 14px 16px;
-                color: #f2f2f2 !important;
-                font-size: 16px;
-                text-decoration: none !important;
-                transition: background 0.2s;
-            }
+            pages.forEach(function (page) {
+                var link = document.createElement("a");
 
-            .iblt-navigation a:hover {
-                background: #ddd;
-                color: #000 !important;
-            }
+                link.href = page.url;
+                link.textContent = page.title;
 
-            .iblt-navigation a.active {
-                background: #ffc40c;
-                color: #fff !important;
-            }
+                link.style.cssText =
+                    "display:block;" +
+                    "padding:14px 16px;" +
+                    "color:#f2f2f2;" +
+                    "font-size:16px;" +
+                    "text-decoration:none;";
 
-            @media (max-width: 650px) {
-                .iblt-navigation a {
-                    flex: 1 1 auto;
-                    text-align: center;
-                    font-size: 14px;
-                    padding: 12px;
+                if (currentPath === page.url.toLowerCase()) {
+                    link.style.backgroundColor = "#ffc40c";
+                    link.style.color = "#ffffff";
+                    link.setAttribute("aria-current", "page");
                 }
-            }
-        `;
 
-        container.appendChild(style);
-
-// Remove previously generated navigation links
-container.querySelectorAll("a").forEach(function(link) {
-    link.remove();
-});
-
-        
-        pages.forEach(function (page) {
-            var link = document.createElement("a");
-
-            link.href = page.url;
-            link.textContent = page.title;
-
-            if (currentPath === page.url.toLowerCase()) {
-                link.className = "active";
-                link.setAttribute("aria-current", "page");
-            }
-
-            container.appendChild(link);
+                container.appendChild(link);
+            });
         });
-    });
+    }
+
+    // Run after the document is ready
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", buildNavigation);
+    } else {
+        buildNavigation();
+    }
+
 })();
